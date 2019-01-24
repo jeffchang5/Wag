@@ -3,7 +3,6 @@
 buildscript {
     ext.dagger_version = '2.17'
     ext.kotlin_version = '1.2.21'
-    ext.android_support_version = '1.0.0-beta01'
     ext.room_version = '2.0.0-beta01'
 
     repositories {
