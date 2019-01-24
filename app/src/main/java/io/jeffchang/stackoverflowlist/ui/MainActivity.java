@@ -1,7 +1,7 @@
 package io.jeffchang.stackoverflowlist.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import io.jeffchang.stackoverflowlist.R;
