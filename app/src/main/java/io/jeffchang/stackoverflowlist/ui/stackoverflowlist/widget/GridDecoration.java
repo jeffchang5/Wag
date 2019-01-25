@@ -5,10 +5,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import io.jeffchang.stackoverflowlist.utils.ResourceUtil;
 
-public class StackOverflowUserDecoration extends RecyclerView.ItemDecoration {
-
-    private int gridMargin = 2;
+public class GridDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(
@@ -16,6 +15,7 @@ public class StackOverflowUserDecoration extends RecyclerView.ItemDecoration {
             @NonNull View view,
             @NonNull RecyclerView parent,
             @NonNull RecyclerView.State state) {
+        int gridMargin = ResourceUtil.convertDpToPixels(view.getContext(), 2);
         outRect.set(gridMargin, gridMargin, gridMargin, gridMargin);
     }
 

@@ -4,7 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -12,6 +16,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import io.jeffchang.stackoverflowlist.R;
 import io.jeffchang.stackoverflowlist.models.StackOverflowUser;
+import timber.log.Timber;
 
 public class StackOverflowUserRecyclerViewAdapter extends ListAdapter<
         StackOverflowUser,
@@ -38,22 +43,47 @@ public class StackOverflowUserRecyclerViewAdapter extends ListAdapter<
     class StackOverflowUserViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView stackOverflowUserNameTextView;
-        private final TextView stackOverflowBadgeTextView;
+        private final ImageView stackOverflowBadgeImageView;
         private final ImageView stackOverflowGravitarImageView;
+        private final ProgressBar stackOverflowGravitarProgressBar;
 
         StackOverflowUserViewHolder(@NonNull View itemView) {
             super(itemView);
             stackOverflowUserNameTextView = itemView
                     .findViewById(R.id.stack_overflow_item_username);
-            stackOverflowBadgeTextView = itemView
+            stackOverflowBadgeImageView = itemView
                     .findViewById(R.id.stack_overflow_item_badge_textview);
             stackOverflowGravitarImageView = itemView
                     .findViewById(R.id.stack_overflow_item_gravitar_imageview);
+            stackOverflowGravitarProgressBar = itemView
+                    .findViewById(R.id.stack_overflow_item_gravitar_progressbar);
         }
 
-        public void bind(StackOverflowUser stackOverflowUser) {
+        void bind(StackOverflowUser stackOverflowUser) {
+            int progressBarVisibility = stackOverflowGravitarProgressBar.getVisibility();
+
+            // when recycled, this may not be set.
+            if (progressBarVisibility != View.VISIBLE) {
+                stackOverflowGravitarProgressBar.setVisibility(View.VISIBLE);
+            }
             stackOverflowUserNameTextView.setText(stackOverflowUser.getDisplayName());
-//            stackOverflowBadgeTextView.setText(stackOverflowUser.getBadgeCounts());
+
+            Picasso.with(itemView.getContext())
+                    .load(stackOverflowUser.getProfileImage())
+                    .fit()
+                    .centerCrop()
+                    .into(stackOverflowGravitarImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            stackOverflowGravitarProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            // Ideally, log this to the server.
+                            Timber.e("Failed to load image");
+                        }
+                    });
         }
     }
 

@@ -14,6 +14,7 @@ import io.jeffchang.stackoverflowlist.R;
 import io.jeffchang.stackoverflowlist.di.modules.DaggerViewModelFactory;
 import io.jeffchang.stackoverflowlist.ui.common.BaseFragment;
 import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.viewmodel.StackOverflowUserViewModel;
+import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.widget.GridDecoration;
 import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.widget.StackOverflowUserListView;
 import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.widget.StackOverflowUserRecyclerViewAdapter;
 
@@ -76,6 +77,7 @@ public class StackOverFlowUserListFragment extends BaseFragment
                 new StackOverflowUserDiffCallback());
         stackOverflowUserRecyclerView.setLayoutManager(
                 new GridLayoutManager(getContext(), 3));
+        stackOverflowUserRecyclerView.addItemDecoration(new GridDecoration());
         stackOverflowUserRecyclerView.setAdapter(stackOverflowUserRecyclerViewAdapter);
     }
 
