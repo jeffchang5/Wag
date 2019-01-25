@@ -46,6 +46,14 @@ public class StackOverFlowUserListFragment extends BaseFragment
         stackOverflowUserViewModel.getStackOverflowUsers();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        stackOverflowUserRecyclerView = view.findViewById(R.id.list_fragment_recycler_view);
+        showProgressBar(getString(R.string.loading_stack_overflow_users));
+        initRecyclerView();
+    }
+
     public static StackOverFlowUserListFragment newInstance() {
         Bundle args = new Bundle();
         StackOverFlowUserListFragment fragment = new StackOverFlowUserListFragment();
@@ -54,17 +62,29 @@ public class StackOverFlowUserListFragment extends BaseFragment
     }
 
     private void subscribeUI() {
-        stackOverflowUserViewModel.getStackOverflowUserListLiveData()
-                .observe(this, stackOverflowUsers ->
-                        stackOverflowUserRecyclerViewAdapter.submitList(stackOverflowUsers)
-                );
-    }
+        stackOverflowUserViewModel
+                .getStackOverflowUserListLiveData()
+                .observe(this, stackOverflowUsers -> {
+                    showMainContent();
+                    stackOverflowUserRecyclerViewAdapter.submitList(stackOverflowUsers);
+                });
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        stackOverflowUserRecyclerView = view.findViewById(R.id.list_fragment_recycler_view);
-        initRecyclerView();
+        stackOverflowUserViewModel
+                .getErrorTypeLiveData()
+                .observe(this, errorType -> {
+                    switch (errorType) {
+                        case NETWORK:
+                            showErrorView(R.drawable.ic_cloud_off_black_24dp,
+                                    getString(R.string.no_internet_connection), () ->
+                                            stackOverflowUserViewModel.getStackOverflowUsers());
+                            break;
+                        case OTHER:
+                            showErrorView(R.drawable.ic_cloud_off_black_24dp,
+                                    getString(R.string.unknown_error),
+                                    () -> stackOverflowUserViewModel.getStackOverflowUsers());
+                            break;
+                    }
+                });
     }
 
     @Override
