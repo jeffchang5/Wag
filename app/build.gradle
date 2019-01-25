@@ -29,6 +29,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+    // Architecture Components Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
     // View related libraries
     implementation'com.squareup.picasso:picasso:2.5.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

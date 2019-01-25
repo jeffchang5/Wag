@@ -5,8 +5,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.view.View;
 
+import javax.inject.Inject;
+
+import androidx.lifecycle.ViewModelProviders;
 import io.jeffchang.stackoverflowlist.R;
+import io.jeffchang.stackoverflowlist.di.modules.DaggerViewModelFactory;
 import io.jeffchang.stackoverflowlist.ui.common.BaseFragment;
+import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.viewmodel.StackOverflowUserViewModel;
 import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.widget.StackOverflowUserListView;
 
 /**
@@ -14,6 +19,22 @@ import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.widget.StackOverflowU
  */
 public class StackOverFlowUserListFragment extends BaseFragment
         implements StackOverflowUserListView {
+
+    @Inject
+    DaggerViewModelFactory viewModelFactory;
+
+    StackOverflowUserViewModel stackOverflowUserViewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        stackOverflowUserViewModel =
+                ViewModelProviders
+                        .of(this,viewModelFactory)
+                        .get(StackOverflowUserViewModel.class);
+
+        stackOverflowUserViewModel.getStackOverflowUsers();
+    }
 
     public static StackOverFlowUserListFragment newInstance() {
         Bundle args = new Bundle();

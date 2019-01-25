@@ -22,7 +22,8 @@ public class MainActivity extends DaggerAppCompatActivity {
     void goToListFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_fragment_container, StackOverFlowUserListFragment.newInstance())
+                .replace(R.id.main_fragment_container,
+                        StackOverFlowUserListFragment.newInstance())
                 .commit();
     }
 }
