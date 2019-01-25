@@ -27,7 +27,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // Architecture Components Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -56,12 +55,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
     annotationProcessor"com.google.dagger:dagger-android-processor:$dagger_version"
-
-    // Room libraries
-    implementation "androidx.room:room-runtime:2.1.0-alpha03"
-    implementation "androidx.room:room-rxjava2:2.1.0-alpha03"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-
+    
     // Debugging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
