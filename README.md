@@ -22,3 +22,12 @@ This project is an implementation of the specs required by the Procore challenge
 
 * Displays a list of users on the first page of StackOverflow.
 * See badges for each user.
+
+### Third Party Libraries
+
+* Picasso is used to load and cache images from the network
+* Architecture Components LiveModel is used to have a lifecycle aware (and safe) place to hold data as well as convenient for writing a CLEAN architecture.
+* RxJava 2 is used to provide a reactive stream method of presenting of data. It is easier to handle and manipulate different transactions.
+* Retrofit is a great network abstraction library to convert JSO to POJO models.
+* Dagger 2 is used to reduce boilerplate and create testable services and components.
+* Timber is great for logging.
