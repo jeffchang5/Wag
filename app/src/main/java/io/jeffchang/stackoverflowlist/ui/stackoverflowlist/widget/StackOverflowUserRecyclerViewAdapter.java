@@ -1,5 +1,7 @@
 package io.jeffchang.stackoverflowlist.ui.stackoverflowlist.widget;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import io.jeffchang.stackoverflowlist.R;
+import io.jeffchang.stackoverflowlist.models.BadgeCounts;
 import io.jeffchang.stackoverflowlist.models.StackOverflowUser;
 import timber.log.Timber;
 
@@ -43,7 +46,9 @@ public class StackOverflowUserRecyclerViewAdapter extends ListAdapter<
     class StackOverflowUserViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView stackOverflowUserNameTextView;
-        private final ImageView stackOverflowBadgeImageView;
+        private final TextView bronzeBadgeTextView;
+        private final TextView silverBadgeTextView;
+        private final TextView goldBadgeTextView;
         private final ImageView stackOverflowGravitarImageView;
         private final ProgressBar stackOverflowGravitarProgressBar;
 
@@ -51,14 +56,22 @@ public class StackOverflowUserRecyclerViewAdapter extends ListAdapter<
             super(itemView);
             stackOverflowUserNameTextView = itemView
                     .findViewById(R.id.stack_overflow_item_username);
-            stackOverflowBadgeImageView = itemView
-                    .findViewById(R.id.stack_overflow_item_badge_textview);
+            bronzeBadgeTextView = itemView
+                    .findViewById(R.id.stack_overflow_item_bronze_textview);
+            silverBadgeTextView = itemView
+                    .findViewById(R.id.stack_overflow_item_silver_textview);
+            goldBadgeTextView = itemView
+                    .findViewById(R.id.stack_overflow_item_gold_textview);
             stackOverflowGravitarImageView = itemView
                     .findViewById(R.id.stack_overflow_item_gravitar_imageview);
             stackOverflowGravitarProgressBar = itemView
                     .findViewById(R.id.stack_overflow_item_gravitar_progressbar);
         }
 
+        /**
+          TODO: Make sure these values are non-null. I'm going to assume they are because
+         they are all there.
+         **/
         void bind(StackOverflowUser stackOverflowUser) {
             int progressBarVisibility = stackOverflowGravitarProgressBar.getVisibility();
 
@@ -67,6 +80,7 @@ public class StackOverflowUserRecyclerViewAdapter extends ListAdapter<
                 stackOverflowGravitarProgressBar.setVisibility(View.VISIBLE);
             }
             stackOverflowUserNameTextView.setText(stackOverflowUser.getDisplayName());
+            bindBadges(stackOverflowUser.getBadgeCounts());
 
             Picasso.with(itemView.getContext())
                     .load(stackOverflowUser.getProfileImage())
@@ -84,6 +98,18 @@ public class StackOverflowUserRecyclerViewAdapter extends ListAdapter<
                             Timber.e("Failed to load image");
                         }
                     });
+        }
+
+        private void bindBadges(BadgeCounts badgeCounts) {
+            Resources resources = itemView.getContext().getResources();
+
+            String bronzeBadges = resources.getString(R.string.bronze_badges, badgeCounts.getBronze());
+            String silverBadges = resources.getString(R.string.silver_badges, badgeCounts.getSilver());
+            String goldBadges = resources.getString(R.string.gold_badges, badgeCounts.getGold());
+
+            bronzeBadgeTextView.setText(bronzeBadges);
+            silverBadgeTextView.setText(silverBadges);
+            goldBadgeTextView.setText(goldBadges);
         }
     }
 

@@ -8,4 +8,9 @@
     <string name="loading_dog_breeds">Loading Stack Overflow Users</string>
     <string name="gravitar_content">Gravitar</string>
     <string name="badge_content">Badge</string>
+
+    <!--Badges-->
+    <string name="bronze_badges">Bronze: %d</string>
+    <string name="silver_badges">Silver: %d</string>
+    <string name="gold_badges">Gold: %d</string>
 </resources>
