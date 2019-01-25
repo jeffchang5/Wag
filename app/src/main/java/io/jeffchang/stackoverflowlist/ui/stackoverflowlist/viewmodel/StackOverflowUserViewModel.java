@@ -1,8 +1,13 @@
 package io.jeffchang.stackoverflowlist.ui.stackoverflowlist.viewmodel;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import io.jeffchang.stackoverflowlist.models.StackOverflowUser;
 import io.jeffchang.stackoverflowlist.ui.stackoverflowlist.interactor.StackOverflowInteractor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -16,6 +21,9 @@ public class StackOverflowUserViewModel extends ViewModel {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    private MutableLiveData<List<StackOverflowUser>> stackOverflowUserListLiveData =
+            new MutableLiveData<>();
+
     @Inject
     StackOverflowUserViewModel(StackOverflowInteractor stackOverflowInteractor) {
         this.stackOverflowInteractor = stackOverflowInteractor;
@@ -26,12 +34,16 @@ public class StackOverflowUserViewModel extends ViewModel {
                 .getStackOverflowUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(stackOverflowUser -> {
-            Timber.d(stackOverflowUser.toString());
-        }, throwable -> {
+        .subscribe(
+                stackOverflowUser -> stackOverflowUserListLiveData.setValue(stackOverflowUser),
+                throwable -> {
             Timber.e(throwable);
         });
         compositeDisposable.add(disposable);
+    }
+
+    public LiveData<List<StackOverflowUser>> getStackOverflowUserListLiveData() {
+        return stackOverflowUserListLiveData;
     }
 
     @Override
