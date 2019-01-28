@@ -1,6 +1,6 @@
-# Stack Overflow Users
+# Wag
 
-This project is an implementation of the specs required by the Procore challenge criteria. The app requires Android 5.1 and above.
+This project is an implementation of the specs required by the Wag challenge criteria. The app requires Android 5.1 and above.
 
 ### Getting Started
 
